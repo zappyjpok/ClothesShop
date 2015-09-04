@@ -1,3 +1,9 @@
 ENV.php
 
+.DS_Store
+node_modules
+.tmp
+.sass-cache
 .log
+
+builds/**/images/*
