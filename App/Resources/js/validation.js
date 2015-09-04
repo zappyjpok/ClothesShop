@@ -1,6 +1,9 @@
 /**
  * Created by thuyshawn on 8/08/2015.
  */
+
+var $ = require('jquery');
+
 $(document).ready(function(){
 
     $('.validation-form').submit(function () {
