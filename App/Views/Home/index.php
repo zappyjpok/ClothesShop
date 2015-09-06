@@ -6,14 +6,21 @@
  * Time: 7:33 PM
  */ ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Clothing Mart</title>
+<?php require_once('../App/Views/_layouts/_header.php') ?>
 
-</head>
-<body>
-<h1> Welcome to the homepage</h1>
+    <div class="row">
+        <section class="large-12">
+            <h1> Check out our latest deals </h1>
+            <p> Click on any product to get more information </p>
+        </section>
+        <div>
+            <?php
 
-<?php echo $data['message'] ?>
+
+            ?>
+        </div>
+    </div>
+
+<?php require_once('../App/Views/_layouts/_footer.php') ?>
+
+

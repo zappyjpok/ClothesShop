@@ -10,11 +10,13 @@
     "type": "git",
     "url": "https://github.com/zappyjpok/ClothesShop"
   },
-  "author": "Shawn Legge",
+  "author": "Shawn Legge <potentia2020@yahoo.com>",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-browserify": "^0.5.1",
+    "gulp-compass": "^2.1.0",
     "gulp-concat": "^2.6.0",
+    "gulp-sass": "^2.0.4",
     "gulp-util": "^3.0.6",
     "jquery": "^2.1.4"
   }

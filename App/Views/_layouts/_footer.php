@@ -7,5 +7,6 @@
  */ ?>
 
         </main>
+        <script src="JS/all.js"></script>
     </body>
 </html>

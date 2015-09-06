@@ -7,18 +7,49 @@
  */
 ?>
 <?php require_once('../App/Views/_layouts/_header.php') ?>
+    <div class="row">
+        <div class="large-12">
+            <fieldset>
+                <legend>Register Here</legend>
+                <form action="store" method="post">
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label for="FirstName"> First Name: </label>
+                            <input type="text" name="FirstName">
+                        </div>
+                        <div class="medium-6 columns">
+                            <label for="LastName"> Last Name: </label>
+                            <input type="text" name="LastName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label for="Email"> Email: </label>
+                            <input type="text" name="Email">
+                        </div>
+                        <div class="medium-6 columns">
 
-    <form action="store" method="post">
-        <input type="hidden" name="action" value="CreateUser">
-        <label for="FirstName"> First Name: </label>
-        <input type="text" name="FirstName"><br>
-        <label for="LastName"> Last Name: </label>
-        <input type="text" name="LastName"><br>
-        <label for="Email"> Email: </label>
-        <input type="text" name="Email"><br>
-        <label for="Password"> Password: </label>
-        <input type="password" name="Password"><br>
-        <input type="submit">
-    </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <label for="Password"> Password: </label>
+                            <input type="password" name="Password">
+                        </div>
+                        <div class="medium-6 columns">
+                            <label for="Confirm_Password"> Confirm Password: </label>
+                            <input type="password" name="Confirm_Password">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <input type="submit" class="button">
+                        </div>
+                    </div>
+
+                </form>
+            </fieldset>
+        </div>
+    </div>
 
 <?php require_once('../App/Views/_layouts/_footer.php') ?>

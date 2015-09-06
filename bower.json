@@ -1,0 +1,20 @@
+{
+  "name": "ShoppingCart",
+  "version": "0.1.0",
+  "homepage": "https://github.com/zappyjpok/ClothesShop",
+  "authors": [
+    "Shawn Legge <potentia2020@yahoo.com>"
+  ],
+  "description": "A clothes shop that utilizes a shopping cart",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "foundation": "~5.5.2"
+  }
+}

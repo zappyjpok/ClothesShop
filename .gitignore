@@ -2,6 +2,7 @@ ENV.php
 
 .DS_Store
 node_modules
+bower_components
 .tmp
 .sass-cache
 .log

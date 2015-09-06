@@ -12,6 +12,10 @@
     <meta charset="UTF-8">
     <title>Clothing Mart</title>
 
+    <!-- <link rel="stylesheet" href="CSS/app.css"> for production -->
+    <link rel="stylesheet" href="/shoppingcart/Public/CSS/app.css">
+
 </head>
     <body>
-        <main>
+        <main class="container">
+            <?php require_once('../App/Views/_layouts/_nav.php') ?>
