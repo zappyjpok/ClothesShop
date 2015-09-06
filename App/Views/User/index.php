@@ -8,8 +8,14 @@
 
 <?php require_once('../App/Views/_layouts/_header.php') ?>
 
-<pre>
-   <?php print_r($data['users']) ?>
-</pre>
+    <pre>
+       <?php print_r(User::All()); ?>
+    </pre>
+
+    <h1> Next </h1>
+
+    <pre>
+       <?php print_r(User::login_info('Tom@gmail.com')); ?>
+    </pre>
 
 <?php require_once('../App/Views/_layouts/_footer.php') ?>

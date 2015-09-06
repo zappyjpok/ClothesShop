@@ -34,16 +34,54 @@ class User {
 
     public static function Add($firstName, $lastName, $email, $password)
     {
-        $pass = crypt($password);
-        $sql = 'INSERT INTO tblUser(useFirstName, useLastName, useEmail, usePassword)
-                VALUES (:FirstName, :LastName, :Email, :Password)';
-        $db = new PDO_Connect();
-        $db->prepare($sql);
-        $db->bind(':FirstName', $firstName);
-        $db->bind(':LastName', $lastName);
-        $db->bind(':Email', $email);
-        $db->bind(':Password', $pass);
-        $db->execute();
+        try {
+            $pass = password_hash($password, PASSWORD_DEFAULT);
+            $sql = 'INSERT INTO tblUser(useFirstName, useLastName, useEmail, usePassword)
+                    VALUES (:FirstName, :LastName, :Email, :Password)';
+            $db = new PDO_Connect();
+            $db->prepare($sql);
+            $db->bind(':FirstName', $firstName);
+            $db->bind(':LastName', $lastName);
+            $db->bind(':Email', $email);
+            $db->bind(':Password', $pass);
+            $db->execute();
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
     }
 
+    public static function find_by_email($email)
+    {
+        try {
+            $sql = "SELECT useUserId
+            FROM tblUser
+            WHERE useEmail=:Email";
+            $db = new PDO_Connect();
+            $db->prepare($sql);
+            $db->bind(':Email', $email);
+            $errors = $db->getErrors();
+            $results = $db->result_set();
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+
+        return $results;
+    }
+
+    public static function find($id)
+    {
+        try {
+            $sql = "SELECT useUserId, useFirstName, useLastName, useEmail
+                FROM tblUser
+                WHERE useUserID=:Id";
+            $db = new PDO_Connect();
+            $db->prepare($sql);
+            $db->bind(':Id', $id, PDO::PARAM_INT);
+            $results = $db->result_set();
+            $errors = $db->getErrors();
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+        return $results;
+    }
 }

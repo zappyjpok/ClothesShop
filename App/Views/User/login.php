@@ -12,7 +12,7 @@
         <div class="large-12">
             <fieldset>
                 <legend>Login</legend>
-                <form action="check" method="post">
+                <form action="check" method="post" action-="check">
                     <div class="row">
                         <div class="medium-6 columns">
                             <label for="Email"> Email: </label>

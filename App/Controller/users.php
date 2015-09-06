@@ -10,11 +10,15 @@ class users extends Controller {
 
     public function index()
     {
+
+
         $user = $this->model('User');
         $users = User::All();
 
         $this->view('user/index',
-            ['users' => $users]);
+            [
+                'users' => $users
+            ]);
     }
 
     public function create()
@@ -25,11 +29,13 @@ class users extends Controller {
     public function store()
     {
         $this->model('User');
-        $password = crypt($_POST['Password']);
-        User::Add($_POST['FirstName'], $_POST['LastName'], $_POST['Email'], $password);
+        User::Add($_POST['FirstName'], $_POST['LastName'], $_POST['Email'], $_POST['Password']);
         $users = User::All();
+
         $this->view('user/index',
-            ['users' => $users]);
+            [
+                'users' => $users,
+            ]);
     }
 
     public function login()
@@ -39,6 +45,30 @@ class users extends Controller {
 
     public function check()
     {
-        $this->view('user/login');
+        $this->model('User');
+        $match = User::login_check($_POST['Email'], $_POST['Password']);
+
+        if($match)
+        {
+            echo "Your password matches";
+        } else {
+            echo "Your password doesn't match";
+        }
+    }
+
+    private function attempt_login($email, $password)
+    {
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+
+        $found_user = attempt_login($email, $password);
+        if ($found_user) {
+            $this->view('home');
+        } else {
+            //Failure
+            $_SESSION["message"] = "Your username or password does not match our records";
+        }
+
+        return false;
     }
 }
