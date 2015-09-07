@@ -14,10 +14,8 @@
             <p> Click on any product to get more information </p>
         </section>
         <div>
-            <?php
 
 
-            ?>
         </div>
     </div>
 

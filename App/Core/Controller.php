@@ -8,6 +8,15 @@
 
 class Controller
 {
+    protected $loggedIn;
+
+    public function __construct()
+    {
+        $session = new Sessions();
+        $this->loggedIn = $session->is_logged_in();
+
+    }
+
     public function model($model)
     {
         $path = '../App/Model/' . $model . '.php';
@@ -21,6 +30,8 @@ class Controller
     }
     public function view($view, $data = [])
     {
+        $loggedIn = $this->loggedIn;
+
         require_once('../App/Views/' . $view . '.php');
     }
 }

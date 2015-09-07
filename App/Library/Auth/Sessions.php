@@ -56,5 +56,3 @@ class Sessions {
     }
 
 }
-
-$session = new Sessions();

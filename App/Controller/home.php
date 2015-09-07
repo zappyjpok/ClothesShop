@@ -10,7 +10,9 @@ class home extends Controller
 {
     public function index()
     {
-        $message = 'This is a value passed from the controller';
-        $this->view('home/index', ['message' => $message]);
+
+        $this->view('home/index', [
+
+        ]);
     }
 }

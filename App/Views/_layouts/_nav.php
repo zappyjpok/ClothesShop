@@ -8,7 +8,6 @@
 
 <?php  require_once('../App/Library/Paths/Links.php'); ?>
 
-
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
@@ -20,8 +19,8 @@
     <section class="top-bar-section">
 
         <?php
-        $loggedIn = false;
-        if($loggedIn)
+
+        if($loggedIn === true)
         {
             require_once('../App/Views/_layouts/_navLoggedIn.php');
         }
