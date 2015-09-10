@@ -10,13 +10,24 @@
 
     <div class="row">
         <div class="large-12">
+            <?php
+                if(isset($data['message'])) {  ?>
+                    <div class="error">
+                        <?php echo $data['message'] ?>
+                    </div>
+                    <?php } ?>
+
+
+
             <fieldset>
                 <legend>Login</legend>
                 <form action="check" method="post" action-="check">
                     <div class="row">
                         <div class="medium-6 columns">
                             <label for="Email"> Email: </label>
-                            <input type="text" name="Email">
+                            <input type="text" name="Email" value="<?php
+                                if(isset($data['email'])) { echo $data['email']; }
+                            ?>">
                         </div>
                         <div class="medium-6 columns">
                             <label for="Password"> Password: </label>
@@ -24,6 +35,9 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="medium-6 columns">
+                            <input type="hidden" name="token" value="<?php echo $data['token']; ?> ">
+                        </div>
                         <div class="medium-6 columns">
                             <input type="submit" class="button" value="Login">
                         </div>

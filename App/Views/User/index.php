@@ -9,13 +9,19 @@
 <?php require_once('../App/Views/_layouts/_header.php') ?>
 
     <pre>
-       <?php print_r(User::All()); ?>
+       <?php print_r(User::authenticate('wonderful@gmail.com', 'secret')); ?>
     </pre>
 
     <h1> Next </h1>
 
     <pre>
-       <?php print_r(User::login_info('Tom@gmail.com')); ?>
+        <?php print_r(User::find(18)) ?>
     </pre>
+
+    <pre>
+       <?php print_r($_SESSION['user']) ?>
+    </pre>
+
+
 
 <?php require_once('../App/Views/_layouts/_footer.php') ?>

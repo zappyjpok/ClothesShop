@@ -6,10 +6,7 @@
  * Time: 2:59 PM
  */
 
-namespace App\library;
 
-
-use Illuminate\Support\Facades\Session;
 
 class ShoppingCart {
 

@@ -6,6 +6,8 @@
  * Time: 7:42 PM
  */
 
+require_once('../App/Library/Paths/Links.php');
+
 class users extends Controller {
 
     public function index()
@@ -30,45 +32,46 @@ class users extends Controller {
     {
         $this->model('User');
         User::Add($_POST['FirstName'], $_POST['LastName'], $_POST['Email'], $_POST['Password']);
-        $users = User::All();
-
-        $this->view('user/index',
-            [
-                'users' => $users,
-            ]);
+        $link = Links::action_link('home/index');
+        header('location: ' . $link);
     }
 
     public function login()
     {
-        $this->view('user/login');
+        if($this->loggedIn)
+        {
+            $link = Links::action_link('home/index');
+            header('location: ' . $link);
+        }
+
+        $token = $this->session->getToken();
+
+        $this->view('user/login', [
+            'token' => $token
+        ]);
     }
 
     public function check()
     {
         $this->model('User');
-        $match = User::login_check($_POST['Email'], $_POST['Password']);
-
-        if($match)
-        {
-            echo "Your password matches";
-        } else {
-            echo "Your password doesn't match";
+        $user = User::authenticate($_POST['Email'], $_POST['Password']);
+        if($user){
+            $this->session->login($user);
+            $link = Links::action_link('home/index');
+            header('location: ' . $link);
+        }else {
+            $message = "Your email or password does not match our records";
+            $this->view('user/login', [
+                'message'   => $message,
+                'email'     => $_POST['Email']
+            ]);
         }
     }
 
-    private function attempt_login($email, $password)
+    public function logout()
     {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-
-        $found_user = attempt_login($email, $password);
-        if ($found_user) {
-            $this->view('home');
-        } else {
-            //Failure
-            $_SESSION["message"] = "Your username or password does not match our records";
-        }
-
-        return false;
+        $this->session->logout();
+        $link = Links::action_link('home/index');
+        header('location: ' . $link);
     }
 }

@@ -10,9 +10,17 @@ class home extends Controller
 {
     public function index()
     {
+        $this->model('Product');
+
+        $products = Product::All();
 
         $this->view('home/index', [
-
+            'products'  =>  $products
         ]);
+    }
+
+    public function addToCart($id)
+    {
+        echo $id;
     }
 }

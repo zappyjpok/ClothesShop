@@ -20,3 +20,4 @@
     <body>
         <main class="container">
             <?php require_once('../App/Views/_layouts/_nav.php') ?>
+            <?php require_once('../App/Views/_layouts/_shoppingCart.php'); ?>

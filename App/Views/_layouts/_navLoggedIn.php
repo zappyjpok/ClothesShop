@@ -8,10 +8,6 @@
 
 <!-- Right Nav Section -->
 <ul class="right">
-    <li class="has-dropdown">
-        <a href="#">Users Name</a>
-        <ul class="dropdown">
-            <li><a href="#">Logout</a></li>
-        </ul>
-    </li>
+    <li><a href="#"> Hello <?php echo $_SESSION['user']['user_FirstName'] . " " . $_SESSION['user']['user_LastName']?> </a></li>
+    <li><a href="<?php echo Links::action_link('users/logout') ?>">Logout</a></li>
 </ul>

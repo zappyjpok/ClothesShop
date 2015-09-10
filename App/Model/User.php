@@ -53,14 +53,14 @@ class User {
     public static function find_by_email($email)
     {
         try {
-            $sql = "SELECT useUserId
+            $sql = "SELECT useUserId, usePassword, useEmail
             FROM tblUser
             WHERE useEmail=:Email";
             $db = new PDO_Connect();
             $db->prepare($sql);
             $db->bind(':Email', $email);
             $errors = $db->getErrors();
-            $results = $db->result_set();
+            $results = $db->single();
         } catch (Exception $e) {
             $error = $e->getMessage();
         }
@@ -77,11 +77,31 @@ class User {
             $db = new PDO_Connect();
             $db->prepare($sql);
             $db->bind(':Id', $id, PDO::PARAM_INT);
-            $results = $db->result_set();
+            $results = $db->single();
             $errors = $db->getErrors();
         } catch (Exception $e) {
             $error = $e->getMessage();
         }
         return $results;
+    }
+
+    public static function authenticate($email, $password)
+    {
+        $user = User::find_by_email($email);
+        $count = count($user);
+
+        //check if user if found
+        if($count > 0) {
+            // check password
+            if(password_verify($password, $user['usePassword']))
+            {
+                // password matches
+                return User::find($user['useUserId']);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
