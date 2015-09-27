@@ -44,4 +44,21 @@ class Product {
         }
     }
 
+    public static function find($id)
+    {
+        try {
+            $sql = "SELECT *
+                FROM tblProduct
+                WHERE proProductID=:Id";
+            $db = new PDO_Connect();
+            $db->prepare($sql);
+            $db->bind(':Id', $id, PDO::PARAM_INT);
+            $results = $db->single();
+            $errors = $db->getErrors();
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+        return $results;
+    }
+
 }

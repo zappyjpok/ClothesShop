@@ -6,6 +6,7 @@
  * Time: 2:59 PM
  */
 
+require_once('../App/Library/Paths/Links.php');
 
 
 class ShoppingCart {
@@ -19,18 +20,18 @@ class ShoppingCart {
     protected $isNumeric = false;
     protected $isInt = false;
     protected $tempData = [];
-    protected $test; // delete later
+    protected $sessions;
 
     protected $testArray = []; // delete later
 
     public function __construct()
     {
-        $this->message [] = 'This value is created';
+        $this->sessions = new SecureSessionHandler('shopping');
     }
 
     public function removeAllItems()
     {
-        Session::forget('cart');
+        $this->sessions->destroy('cart');
     }
 
     public function removeItem($id)
@@ -53,7 +54,9 @@ class ShoppingCart {
 
     public function numberOfItems()
     {
-       return count(Session::get('cart'));
+
+
+        return count($this->sessions->get('cart'));
     }
 
     public function addItem($item, $quantity)
@@ -129,26 +132,26 @@ class ShoppingCart {
     {
         if($this->checkIfEmpty() === false)
         {
-            $count = count(Session::get('cart')) + 1;
+            $count = count($this->sessions->get('cart')) + 1;
             if($this->checkIfInArray())
             {
                 // Find the new quantity
                 $total = $this->getNewTotal();
                 // update the session using a sessions class
                 $this->deleteSession();
-                Session::push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $total]]);
+                $this->sessions->push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $total]]);
             } else {
                 $this->message [] = "There are $count items in the array session";
-                Session::push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $this->quantity]]);
+                $this->sessions->push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $this->quantity]]);
             }
         } else {
-            Session::push('cart', ['item' => 1, ['id' => $this->item, 'quantity' => $this->quantity]]);
+            $this->sessions->push('cart', ['item' => 1, ['id' => $this->item, 'quantity' => $this->quantity]]);
         }
     }
 
     private function checkIfEmpty()
     {
-        $array = Session::get('cart');
+        $array = $this->sessions->get('cart');
         if(!isset($array))
         {
             $this->message [] = 'The cart is empty';
@@ -165,10 +168,11 @@ class ShoppingCart {
         $check = false;
         if(!$this->checkIfEmpty())
         {
-            foreach(Session::get('cart') as $each_item)
+            foreach($this->sessions->get('cart') as $each_item)
             {
                 foreach($each_item as $each_value)
                 {
+
                     if($each_value['id'] == $this->item)
                     {
                         $this->message [] = 'Neutral: The value was in the array';
@@ -183,7 +187,7 @@ class ShoppingCart {
     private function getNewTotal()
     {
         $total = 0;
-        foreach(Session::get('cart') as $each_item) {
+        foreach($this->sessions->get('cart') as $each_item) {
             foreach ($each_item as $each_value) {
                 if ($each_value['id'] == $this->item) {
                     $firstQuantity = $each_value['quantity'];
@@ -198,7 +202,7 @@ class ShoppingCart {
 
     private function deleteSession()
     {
-        $this->tempData = Session::get('cart');
+        $this->tempData = $this->sessions->get('cart');
 
         $i = 0;
         foreach($this->tempData as $each_item)
@@ -229,7 +233,7 @@ class ShoppingCart {
                 $quantity = $each_item[$key]['quantity'];
                 if(!empty($id) && !empty($quantity)){
                     $this->message [] = "The id is $id and the quantity is $quantity";
-                    Session::push('cart', ['item' => $i, ['id' => $id, 'quantity' => $quantity]]);
+                    $this->sessions->push('cart', ['item' => $i, ['id' => $id, 'quantity' => $quantity]]);
                 }
 
             }

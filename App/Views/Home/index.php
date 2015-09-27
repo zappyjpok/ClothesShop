@@ -33,8 +33,8 @@
                             <a href="<?php echo Links::action_link('home/addToCart/') . $product['proProductID'] ?>" >
                                 <button class="small button primary radius">Add to Cart</button>
                             </a>
-                            <a href="<?php echo Links::action_link('home/addToCart/') . $product['proProductID'] ?>" >
-                                <button href="#" class="small button success radius">Learn More</button>
+                            <a href="<?php echo Links::action_link('home/show/') . $product['proProductID'] ?>" >
+                                <button class="small button success radius">Learn More</button>
                             </a>
 
                         </div>

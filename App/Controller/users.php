@@ -44,7 +44,7 @@ class users extends Controller {
             header('location: ' . $link);
         }
 
-        $token = $this->session->getToken();
+        $token = $this->login->getToken();
 
         $this->view('user/login', [
             'token' => $token
@@ -56,7 +56,7 @@ class users extends Controller {
         $this->model('User');
         $user = User::authenticate($_POST['Email'], $_POST['Password']);
         if($user){
-            $this->session->login($user);
+            $this->login->login($user);
             $link = Links::action_link('home/index');
             header('location: ' . $link);
         }else {
@@ -70,7 +70,7 @@ class users extends Controller {
 
     public function logout()
     {
-        $this->session->logout();
+        $this->login->logout();
         $link = Links::action_link('home/index');
         header('location: ' . $link);
     }

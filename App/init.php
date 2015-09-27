@@ -6,6 +6,8 @@
  * Time: 6:19 PM
  */
 
-require_once('Library/Auth/Sessions.php');
+require_once('Library/Auth/Login.php');
+require_once('Library/Sessions/SecureSessionHandler.php');
+require_once('Library/ShoppingCart/ShoppingCart.php');
 require_once('Core/App.php');
 require_once('Core/Controller.php');

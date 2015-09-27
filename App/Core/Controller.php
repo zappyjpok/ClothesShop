@@ -9,14 +9,31 @@
 class Controller
 {
     protected $loggedIn;
-    protected $session;
+
+    /**
+     * @var SecureSessionHandler - Controllers can now access the session functions
+     */
+    protected $sessions;
+
+    /**
+     * @var login -- Controller now have access to login functions
+     */
+    protected $login;
+
+    protected $shoppingCart;
 
     public function __construct()
     {
-        $session = new Sessions();
-        $this->loggedIn = $session->is_logged_in();
-        $this->session = $session;
+        $sessions = new SecureSessionHandler('Shopping_Cart');
+        $sessions->start();
+        $this->sessions = $sessions;
 
+        $login = new Login();
+        $this->login = $login;
+        $this->loggedIn = $login->is_logged_in();
+
+        $shoppingCart = new ShoppingCart();
+        $this->shoppingCart = $shoppingCart;
     }
 
     public function model($model)
@@ -41,9 +58,9 @@ class Controller
     private function getCart()
     {
         $cart = 'You have 0 items in your shopping cart';
-        if(isset($_SESSION['ShoppingCart']))
+        if($this->shoppingCart->numberOfItems() > 0)
         {
-            $count = count($_SESSION['ShoppingCart']['Name']);
+            $count = $this->shoppingCart->numberOfItems();
             if($count === 1)
             {
                 $cart = 'You have 1 item in your cart';
