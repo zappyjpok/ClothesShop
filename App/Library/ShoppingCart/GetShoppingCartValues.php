@@ -6,14 +6,7 @@
  * Time: 6:25 PM
  */
 
-namespace App\library;
-
-
-use App\Product;
-use App\Sale;
-use Illuminate\Support\Facades\Session;
-use App\library\caculations;
-
+require_once('../App/Model/Product.php');
 
 class GetShoppingCartValues {
 
@@ -21,6 +14,15 @@ class GetShoppingCartValues {
     protected $messages = [];
     protected $prices = [];
     protected $total = 0;
+    protected $sessions;
+
+    /**
+     * Be able to access sessions
+     */
+    public function __construct()
+    {
+        $this->sessions = new SecureSessionHandler('shopping');
+    }
 
     /**
      * Gets the product information in an array
@@ -33,6 +35,11 @@ class GetShoppingCartValues {
         return $this->products;
     }
 
+    /**
+     * return the total
+     *
+     * @return int
+     */
     public function getTotal()
     {
         $this->createTotal();
@@ -46,34 +53,33 @@ class GetShoppingCartValues {
      */
     private function queryDatabase()
     {
-        if(!is_null(Session::get('cart')))
+        if(!is_null($this->sessions->get('cart')))
         {
-            foreach(Session::get('cart') as $each_item)
+            foreach($this->sessions->get('cart') as $each_item)
             {
                 foreach ($each_item as $key => $value)
                 {
-                    if(!is_null($each_item[$key]['id']))
+                    if(!is_null($value['id']))
                     {
-                        $product = Product::findOrFail($each_item[$key]['id']);
+                        // query the product information using the product id
+                        $product = Product::find($value['id']);
 
-                        if(!is_null($each_item[$key]['quantity']))
+                        if(!is_null($value['quantity']) && $value['quantity'] > 0)
                         {
-                            $price = $this->getPrice($product->id, $each_item[$key]['quantity'], $product->price);
-                            $this->prices [] = $price;
-                            $this->products [] =  [
-                                'id'            => $each_item[$key]['id'],
-                                'quantity'      => $each_item[$key]['quantity'],
-                                'title'         => $product->title,
-                                'author'        => $product->author,
-                                'description'   => $product->description,
-                                'image'         => $product->image,
-                                'price'         => $price
+                            $this->prices []  = $this->getPrice($value['quantity'], $product['proPrice']);
+                            $this->products [] = [
+                                'id'            => $value['id'],
+                                'quantity'      => $value['quantity'],
+                                'name'         => $product['proName'],
+                                'description'   => $product['proDesc'],
+                                'image'         => $product['proImage'],
+                                'price'         => $product['proPrice']
                             ];
-                        }
-                    }
-                }
-            }
-        }
+                        } // end if
+                    } // end if
+                } // end foreach
+            } // end foreach
+        } // end if
     }
 
     /**
@@ -84,25 +90,18 @@ class GetShoppingCartValues {
      * @param $price
      * @return int|string
      */
-    private function getPrice($id, $quantity, $price)
+    private function getPrice($quantity, $price)
     {
-        if(Sale::current()->findProduct($id)->first())
-        {
-            $price = caculations::caculateDiscountPrice($price, Sale::current()->where('product_id', $id)->first()->discount);
-        }
+        $total = number_format($quantity * $price, 2);
 
-        $price = caculations::calculatePrice($price, $quantity);
-
-        return $price;
+        return $total;
     }
 
-    public function createTotal()
+    private function createTotal()
     {
         foreach ($this->prices as $price)
         {
-
             $this->total = $this->total + $price;
-
         }
     }
 
