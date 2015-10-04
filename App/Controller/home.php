@@ -25,23 +25,17 @@ class home extends Controller
 
     public function test()
     {
+        $startCart = $this->shoppingCart->getTimeFromActivation();
 
-        //$this->shoppingCart->removeAllItems();
-
-        //$this->shoppingCart->removeItem(1);
-
-        $cart = $this->sessions->get('cart');
-
+        //if there is no update
+        $updateCart = $this->shoppingCart->getTimeFromLastUpdate();
+        $this->shoppingCart->removeItem(2);
         $messages = $this->shoppingCart->getMessages();
-        $count = 0;
-
-        $user = $this->sessions->get('user');
 
         $this->view('home/test', [
-            'count' => $count,
-            //'message' => $messages,
-            'cart'  => $cart,
-            'user'  => $user
+            'time1' => $startCart,
+            'time2' => $updateCart,
+            'messages' => $messages
         ]);
     }
 
@@ -78,13 +72,30 @@ class home extends Controller
         $collect = new GetShoppingCartValues();
         $products = $collect->getProductInformation();
         $total = $collect->getTotal();
-        $messages = $collect->getMessages();
+        $quantity = $this->getQuantityArray();
 
         $this->view('home/cart', [
             'products'  => $products,
-            'messages'  => $messages,
-            'total'     => $total
+            'total'     => $total,
+            'quantity'  => $quantity
         ]);
+    }
+
+    public function update($id)
+    {
+        $this->shoppingCart->updateQuantity($id, $_POST['Quantity']);
+
+        $link = Links::action_link('home/cart');
+
+        header('location: ' . $link);
+    }
+
+    public function remove($id)
+    {
+        $this->shoppingCart->removeItem($id);
+        $link = Links::action_link('home/cart');
+
+        header('location: ' . $link);
     }
 
     public function destroy()

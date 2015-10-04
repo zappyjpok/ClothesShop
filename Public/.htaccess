@@ -7,3 +7,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
+
+php_value output_buffering On
+php_value output_handler mb_output_handler

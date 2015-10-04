@@ -11,15 +11,34 @@ require_once('../App/Library/Paths/Links.php');
 
 class ShoppingCart {
 
-    // Messages used to test the class functions
+    /**
+     * @var array -- creates an array of error messages for testing purposes
+     */
     protected $message = [];
+
+    /**
+     * @var -- stores the id of the order
+     */
     protected $item;
+
+    /**
+     * @var -- stores the quantity of the order
+     */
     protected $quantity;
+
+    /**
+     * @var bool -- checks if the values that were entered into the add ucntion are correct
+     */
     protected $testsResult = false;
+
+    // Values to check before adding to the session
     protected $isNull = true;
     protected $isNumeric = false;
     protected $isInt = false;
-    protected $tempData = [];
+
+    /**
+     * @var SecureSessionHandler -- creates a secure
+     */
     protected $sessions;
 
     protected $testArray = []; // delete later
@@ -70,6 +89,31 @@ class ShoppingCart {
             $this->addToSession();
         }
 
+    }
+
+    public function getTimeFromActivation()
+    {
+        return $this->timeDifference($this->sessions->get('cart_activation_time'));
+    }
+
+    public function getTimeFromLastUpdate()
+    {
+        $updateTime = $this->sessions->get('cart_last_updated_time');
+        if($updateTime !== null)
+        {
+            return $this->timeDifference($this->sessions->get('cart_last_updated_time'));
+        }
+        return $this->timeDifference($this->sessions->get('cart_activation_time'));
+    }
+
+    public function timeDifference($start)
+    {
+        $begin = new DateTime(date('h:i:s', $start));
+        $end = new DateTime(date('h:i:s', time()));
+
+        $duration = $begin->diff($end);
+
+        return $duration->format('%i');
     }
 
     private function runTests()
@@ -139,13 +183,13 @@ class ShoppingCart {
                 $total = $this->getNewTotal();
                 // update the session using a sessions class
                 $this->deleteSession();
-                $this->sessions->push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $total]]);
+                $this->sessions->push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $total]], true);
             } else {
                 $this->message [] = "There are $count items in the array session";
-                $this->sessions->push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $this->quantity]]);
+                $this->sessions->push('cart', ['item' => $count, ['id' => $this->item, 'quantity' => $this->quantity]], true);
             }
         } else {
-            $this->sessions->push('cart', ['item' => 1, ['id' => $this->item, 'quantity' => $this->quantity]]);
+            $this->sessions->push('cart', ['item' => 1, ['id' => $this->item, 'quantity' => $this->quantity]], true);
         }
     }
 
@@ -200,23 +244,24 @@ class ShoppingCart {
         return $total;
     }
 
+    /**
+     * This function removes an item from the cart array.
+     * The item variable is set to the id that needs to be removed
+     * A foreach loop will go through every value until it finds the one that \
+     * must be removed from the cart.
+     *
+     */
+
     private function deleteSession()
     {
-        $this->tempData = $this->sessions->get('cart');
-
-        $i = 0;
-        foreach($this->tempData as $each_item)
+        foreach($this->sessions->get('cart') as $key => $value)
         {
-            $i++;
-            foreach($each_item as $key => $value)
+            if($value[0]['id'] == $this->item)
             {
-                if($each_item[$key]['id'] == $this->item)
-                {
-                    unset($this->tempData[$i -1]);
-                }
+                unset($_SESSION['cart'][$key]);
             }
+
         }
-        $this->rebuildSession();
     }
 
     private function rebuildSession()
@@ -233,7 +278,7 @@ class ShoppingCart {
                 $quantity = $each_item[$key]['quantity'];
                 if(!empty($id) && !empty($quantity)){
                     $this->message [] = "The id is $id and the quantity is $quantity";
-                    $this->sessions->push('cart', ['item' => $i, ['id' => $id, 'quantity' => $quantity]]);
+                    $this->sessions->push('cart', ['item' => $i, ['id' => $id, 'quantity' => $quantity]], true);
                 }
 
             }

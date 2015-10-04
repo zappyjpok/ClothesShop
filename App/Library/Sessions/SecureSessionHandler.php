@@ -118,7 +118,7 @@ class SecureSessionHandler extends SessionHandler {
      *
      * @return bool
      */
-    public function refresh()
+    private function refresh()
     {
         return session_regenerate_id(true);
     }
@@ -244,14 +244,35 @@ class SecureSessionHandler extends SessionHandler {
         $session[array_shift($parsed)] = $value;
     }
 
-    public function push($name, $value)
+    public function push($name, $value, $time = false)
     {
-        if(isset($_SESSION[$name]))
+        if(!isset($_SESSION[$name]) && count($_SESSION[$name]) < 1)
         {
-            array_push($_SESSION[$name], $value);
-        } else {
             $_SESSION[$name] = [$value];
+            if($time === true)
+            {
+                $_SESSION[$name . '_activation_time'] = time();
+                $_SESSION['Set_once_test'] = rand(1, 100);
+            }
+        } else {
+            array_push($_SESSION[$name], $value);
+            if($time === true)
+            {
+                $_SESSION[$name . '_last_updated_time'] = time();
+            }
         }
+    }
+
+    public function getSessionLength($name)
+    {
+        $length = false;
+
+        if(isset($_SESSION[$name . '_time']))
+        {
+            $length = $_SESSION[$name . '_time'];
+        }
+
+        return $length;
     }
 
     /**

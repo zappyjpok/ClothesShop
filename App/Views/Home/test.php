@@ -8,19 +8,29 @@
 
 <?php require_once('../App/Views/_layouts/_header.php') ?>
 
-    <h1> Cart data </h1>
+    <h1> Session data </h1>
+
+    <p>
+        Time1:
+        <?php echo $data['time1'];?>
+    </p>
+
+    <p>
+        Time2: <?php echo $data['time2']; ?>
+    </p>
+
         <pre>
             <?php
-                print_r($data['cart'])
+            print_r($_SESSION)
             ?>
         </pre>
 
-    <h1> User  </h1>
+     </p>
+
         <pre>
             <?php
-            print_r($data['user']);
+                print_r($data['messages'])
             ?>
         </pre>
-
 
 <?php require_once('../App/Views/_layouts/_footer.php') ?>
