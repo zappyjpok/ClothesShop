@@ -98,6 +98,14 @@ class home extends Controller
         header('location: ' . $link);
     }
 
+    public function delete_cart()
+    {
+        $this->shoppingCart->removeAllItems();
+
+        $link = Links::action_link('home/cart');
+        header('location: ' . $link);
+    }
+
     public function destroy()
     {
         $this->sessions->forget();

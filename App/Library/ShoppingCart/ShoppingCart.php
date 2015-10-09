@@ -41,24 +41,42 @@ class ShoppingCart {
      */
     protected $sessions;
 
-    protected $testArray = []; // delete later
-
+    /**
+     * Constructor creates a secure session handler
+     */
     public function __construct()
     {
         $this->sessions = new SecureSessionHandler('shopping');
     }
 
+    /**
+     * Removes all items from the shopping cart
+     */
     public function removeAllItems()
     {
         $this->sessions->destroy('cart');
+        $this->sessions->destroy('cart_last_updated_time');
+        $this->sessions->destroy('cart_activation_time');
     }
 
+    /**
+     * Removes a single item from the cart
+     *
+     * @param $id
+     */
     public function removeItem($id)
     {
         $this->item = $id;
         $this->deleteSession();
+        $this->sessions->put('cart_last_updated_time', time());
     }
 
+    /**
+     * Updates the quantity of items requested
+     *
+     * @param $id -- of the product to update
+     * @param $quantity -- new quantity
+     */
     public function updateQuantity($id, $quantity)
     {
         $this->item = $id;
@@ -71,13 +89,22 @@ class ShoppingCart {
         }
     }
 
+    /**
+     * Returns the number of items requested
+     *
+     * @return int
+     */
     public function numberOfItems()
     {
-
-
         return count($this->sessions->get('cart'));
     }
 
+    /**
+     * Add items to the array
+     *
+     * @param $item
+     * @param $quantity
+     */
     public function addItem($item, $quantity)
     {
         $this->item = $item;
@@ -93,7 +120,14 @@ class ShoppingCart {
 
     public function getTimeFromActivation()
     {
-        return $this->timeDifference($this->sessions->get('cart_activation_time'));
+        $time = null;
+
+        if($this->sessions->get('cart_activation_time') !== null)
+        {
+            $time = $this->timeDifference($this->sessions->get('cart_activation_time'));
+        }
+
+        return $time;
     }
 
     public function getTimeFromLastUpdate()

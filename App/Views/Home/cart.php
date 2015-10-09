@@ -62,6 +62,11 @@
                 <fieldset>
                     <legend> Total</legend>
                     <h3> Total: $<?php echo Output::phpPrice($data['total'])  ?> </h3>
+                    <button class="button alert">
+                        <a href="<?php echo Links::action_link('home/delete_cart') ?>" >
+                            Remove all items
+                        </a>
+                    </button>
                 </fieldset>
             </div>
         <?php } ?>

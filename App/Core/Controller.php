@@ -51,6 +51,8 @@ class Controller
     {
         $loggedIn = $this->loggedIn;
         $cart = $this->getCart();
+        $startCart = $this->shoppingCart->getTimeFromActivation();
+        $updateCart = $this->shoppingCart->getTimeFromLastUpdate();
 
         require_once('../App/Views/' . $view . '.php');
     }

@@ -6706,3 +6706,21 @@ th {
 
 .top-buffer-10 {
   margin-top: 10px; }
+
+.priceTitle {
+  color: #00b3ee;
+  font-weight: bold; }
+
+.price {
+  color: #d58512;
+  font-weight: bold; }
+
+#tooltip_container {
+  color: #ffffff;
+  position: absolute;
+  padding: 20px;
+  max-width: 200px;
+  background-color: rgba(0, 0, 0, 0.85);
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-right: 12px; }

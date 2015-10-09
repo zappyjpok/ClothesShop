@@ -8,8 +8,9 @@ var jsSources = [
     'App/Resources/js/vendor/jquery.js',
     'App/Resources/js/vendor/modernizr.js',
     'App/Resources/js/validation.js',
+    'App/Resources/js/foundation.js',
     'App/Resources/js/main.js',
-    'App/Resources/js/foundation.js'
+    'App/Resources/js/tooltip.js'
 ];
 
 gulp.task('js', function(){

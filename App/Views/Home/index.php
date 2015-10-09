@@ -10,7 +10,7 @@
 
     <div class="row">
         <section class="large-12">
-            <h1> Check out our latest deals </h1>
+            <h1> Check out our latest deals! </h1>
             <p> Click on any product to get more information </p>
         </section>
 
@@ -23,14 +23,21 @@
                     <div class="medium-4 columns">
                         <section class="product-header">
                             <h4>
-                                <a href="#"> <?php echo $product['proName'] ?></a>
+                                <a href="<?php echo Links::action_link('home/show/') . $product['proProductID'] ?>">
+                                    <?php echo $product['proName'] ?> </a>
                             </h4>
                             <div class="height-200">
-                                <img src="<?php echo Links::action_link(Links::changeToThumbnail($product['proImage'])) ?>">
+                                <a  class="tool-tip"
+                                    data-tip-type="text"
+                                    data-tip-source="<?php echo Output::phpOutput(Output::shortenString($product['proDesc'], 75)) . "..."; ?>"
+                                    href="<?php echo Links::action_link('home/show/') . $product['proProductID'] ?>">
+                                    <img src="<?php echo Links::action_link(Links::changeToThumbnail($product['proImage'])) ?>">
+                                </a>
+
                             </div>
-                            <p class=""> $<?php echo Output::phpPrice($product['proPrice'])  ?></p>
-                            <p class=""> <?php echo Output::phpOutput(Output::shortenString($product['proDesc'], 75))  ?>
-                                <a href="#"> Read More</a>
+                            <p>
+                                <span class="priceTitle">Price</span>
+                                <span class="price"> $<?php echo Output::phpPrice($product['proPrice'])  ?> </span>
                             </p>
                         </section>
                         <div>
@@ -48,6 +55,10 @@
                 <?php } // end foreach ?>
             </div>
             <?php } // end foreach ?>
+        </div>
+    </div>
+    <div class="row">
+        <div id="tooltip_container">
         </div>
     </div>
 
