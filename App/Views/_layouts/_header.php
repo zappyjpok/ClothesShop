@@ -13,8 +13,7 @@
     <meta charset="UTF-8">
     <title>Clothing Mart</title>
 
-    <!-- <link rel="stylesheet" href="CSS/app.css"> for production -->
-    <link rel="stylesheet" href="/shoppingcart/Public/CSS/app.css">
+    <link rel="stylesheet" href="<?php echo Links::action_link('CSS/app.css') ?>">
 
 </head>
     <body>

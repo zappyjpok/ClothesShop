@@ -121,27 +121,3 @@ class PDO_Connect
     }
 }
 
-/*
-$db = new \PDO_Connect();
-$sql = 'SELECT useUserID, useFirstName, useLastName FROM tblUser';
-$db->query($sql);
-$result = $db->result_set();
-
-echo "<br/>";
-
-$errors = $db->getErrors();
-
-foreach ($errors as $error) {
-    echo 'There was an error: ' . $error;
-    echo '<br />';
-
-}
-
-echo "<pre>";
-    print_r($result);
-echo "</pre>";
-
-*/
-
-
-

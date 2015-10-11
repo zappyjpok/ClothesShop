@@ -21,16 +21,16 @@
 
             <fieldset>
                 <legend>Login</legend>
-                <form action="check" method="post" action-="check">
+                <form action="check" method="post">
                     <div class="row">
                         <div class="medium-6 columns">
-                            <label for="Email"> Email: </label>
+                            <label> Email: </label>
                             <input type="text" name="Email" value="<?php
                                 if(isset($data['email'])) { echo $data['email']; }
                             ?>">
                         </div>
                         <div class="medium-6 columns">
-                            <label for="Password"> Password: </label>
+                            <label> Password: </label>
                             <input type="password" name="Password">
                         </div>
                     </div>

@@ -8,15 +8,15 @@
 
 <?php  require_once('../App/Library/Paths/Links.php'); ?>
 
-<nav class="top-bar" data-topbar role="navigation">
+<nav class="top-bar" data-topbar>
     <ul class="title-area">
         <li class="name">
-            <h1><a href="<?php echo Links::action_link('home') ?>">Home </a></h1>
+            <h3><a href="<?php echo Links::action_link('home') ?>">Home </a></h3>
         </li>
         <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
 
-    <section class="top-bar-section">
+    <div class="top-bar-section">
 
         <?php
 
@@ -32,12 +32,36 @@
 
         <!-- Left Nav Section -->
         <ul class="left">
-            <li><a href="#">Shirts</a></li>
-            <li><a href="#">Shoes</a></li>
-            <li><a href="#">Pants</a></li>
-            <li><a href="#">Accessories </a></li>
+            <?php
+                foreach($navValues as $topNav){ ?>
+                    <li class="has-dropdown">
+                        <a href="#">
+                            <?php echo $topNav['name']; ?>
+                        </a>
+                        <ul class="dropdown">
+                        <?php
+                        foreach($topNav as $array){
+                            if(is_array($array)) {
+                                foreach ($array as $sub) {
+                                    foreach($sub as $name)
+                                    {
+                                        if(!is_null($name)) { ?>
+                                            <li>
+                                                <a href="#">
+                                                    <?php echo $name; ?>
+                                                </a>
+                                            </li> <?php
+                                        }
+                                    }
+                                }
+                            }
+                        } ?>
+                        </ul>
+                    </li> <?php
+                }
+            ?>
         </ul>
-    </section>
+    </div>
 
 </nav>
 

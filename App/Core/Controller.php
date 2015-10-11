@@ -53,11 +53,18 @@ class Controller
         $cart = $this->getCart();
         $startCart = $this->shoppingCart->getTimeFromActivation();
         $updateCart = $this->shoppingCart->getTimeFromLastUpdate();
+        $nav = new PrepareNavBar();
+        $navValues = $nav->getValues();
 
         require_once('../App/Views/' . $view . '.php');
     }
 
-    private function getCart()
+    public function JSON($data)
+    {
+        return json_encode($data);
+    }
+
+    protected function getCart()
     {
         $cart = 'You have 0 items in your shopping cart';
         if($this->shoppingCart->numberOfItems() > 0)
@@ -73,3 +80,4 @@ class Controller
         return $cart;
     }
 }
+

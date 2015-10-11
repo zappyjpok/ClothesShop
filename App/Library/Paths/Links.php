@@ -28,7 +28,7 @@ class Links {
         {
             $url = '/shoppingcart/Public/' . $name;
         } else {
-            $url = $name;
+            $url = 'http://a78135893.tafenowweb.net/' . $name;
         }
         return $url;
     }

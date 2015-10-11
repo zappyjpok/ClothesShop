@@ -9,6 +9,8 @@
 
 $(document).ready(function() {
 
+    $('#tooltip_container').hide();
+
     // Tooltip
     $('.tool-tip').mouseover(function(e) {
 

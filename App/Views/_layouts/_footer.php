@@ -7,6 +7,7 @@
  */ ?>
 
         </main>
-        <script src="JS/all.js"></script>
+
+        <script src="<?php echo Links::action_link('JS/all.js') ?>"></script>
     </body>
 </html>

@@ -66,13 +66,9 @@ class SecureSessionHandler extends SessionHandler {
      */
     public function start()
     {
-        if(session_id() === '')
-        {
-            if(session_start())
-            {
-                return (mt_rand(0, 4) === 0) ? $this->refresh() : true;
-            }
-        }
+        session_start();
+        session_set_cookie_params(3600 * 24 * 7);
+        session_regenerate_id();
     }
 
     /**

@@ -7,6 +7,7 @@
  */
 
 require_once('../App/Library/ShoppingCart/GetShoppingCartValues.php');
+require_once('../App/Library/Output/PrepareNavBar.php');
 
 
 
@@ -25,26 +26,68 @@ class home extends Controller
 
     public function test()
     {
-        $startCart = $this->shoppingCart->getTimeFromActivation();
+        $this->model('Navbar');
+        $this->model('SubNavbar');
+        $this->model('Product');
 
-        //if there is no update
-        $updateCart = $this->shoppingCart->getTimeFromLastUpdate();
-        $this->shoppingCart->removeItem(2);
-        $messages = $this->shoppingCart->getMessages();
+        $nav = new PrepareNavBar();
+        $navValues = $nav->getValues();
 
-        $this->view('home/test', [
-            'time1' => $startCart,
-            'time2' => $updateCart,
-            'messages' => $messages
-        ]);
+        $NavBar = Navbar::All();
+        $subNavBar = SubNavbar::All_Sub(2);
+        $product = Product::find(1);
+
+        //echo $NavBar[0]['navName'];
+        //echo "<br />";
+        $nav = new PrepareNavBar();
+        $navValues = $nav->getValues();
+        echo '<pre>';
+        echo print_r($navValues);
+        echo '</pre>';
+
+
+        foreach($navValues as $topNav){
+            echo '<li><a href="#">';
+            echo $topNav['name'];
+            echo '<ul>';
+            foreach($topNav as $array){
+                if(is_array($array)){
+                    foreach($array as $sub){
+                        foreach($sub as $name)
+                        {
+                            echo '<pre>';
+                            print_r($name);
+                            echo '</pre>';
+                        }
+                    }
+                }
+            }
+            echo '</ul>';
+            echo '</a></li>';
+        }
+
     }
 
-    public function addToCart($id)
+    public function addToCart()
     {
-        $this->shoppingCart->addItem($id,1);
+       if($this->is_ajax())
+       {
+           // convert the id to an int
+           $id = (int)$_POST['id'];
+           // add to the shopping cart
+           $this->shoppingCart->addItem($id,1);
+           // get the new values to display
+           $cart = $this->getCart();
+           $startCart = $this->shoppingCart->getTimeFromActivation();
+           $updateCart = $this->shoppingCart->getTimeFromLastUpdate();
+           $data = [
+               'cart'   => $cart,
+               'start'  => $startCart,
+               'update' =>$updateCart
+           ];
 
-        $link = Links::action_link('home/index');
-        header('location: ' . $link);
+           echo json_encode($data);
+       }
     }
 
     public function addToCartForm($id)
@@ -122,4 +165,9 @@ class home extends Controller
 
         return $quantity;
     }
+
+    private function is_ajax() {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
+
 }

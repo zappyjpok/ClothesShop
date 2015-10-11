@@ -6701,9 +6701,6 @@ th {
 
 /***********************************************************************************************
 /***********************************************************************************************/
-.product-header {
-  height: 380px; }
-
 .top-buffer-10 {
   margin-top: 10px; }
 
@@ -6724,3 +6721,6 @@ th {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-right: 12px; }
+
+.tooltip-source-html {
+  display: none; }

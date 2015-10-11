@@ -14,17 +14,17 @@
                 <form action="store" method="post">
                     <div class="row">
                         <div class="medium-6 columns">
-                            <label for="FirstName"> First Name: </label>
+                            <label> First Name: </label>
                             <input type="text" name="FirstName">
                         </div>
                         <div class="medium-6 columns">
-                            <label for="LastName"> Last Name: </label>
+                            <label> Last Name: </label>
                             <input type="text" name="LastName">
                         </div>
                     </div>
                     <div class="row">
                         <div class="medium-6 columns">
-                            <label for="Email"> Email: </label>
+                            <label> Email: </label>
                             <input type="text" name="Email">
                         </div>
                         <div class="medium-6 columns">
@@ -33,11 +33,11 @@
                     </div>
                     <div class="row">
                         <div class="medium-6 columns">
-                            <label for="Password"> Password: </label>
+                            <label> Password: </label>
                             <input type="password" name="Password">
                         </div>
                         <div class="medium-6 columns">
-                            <label for="Confirm_Password"> Confirm Password: </label>
+                            <label> Confirm Password: </label>
                             <input type="password" name="Confirm_Password">
                         </div>
                     </div>

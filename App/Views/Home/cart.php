@@ -21,10 +21,11 @@
                         <section class="medium-4 columns">
                             <div class="product-header">
                                 <h4>
-                                    <a href="#"> <?php echo $product['name'] ?></a>
+                                    <a href="#"> <?php echo Output::phpOutput($product['name'])  ?></a>
                                 </h4>
                                 <div class="height-200">
-                                    <img src="<?php echo Links::action_link(Links::changeToThumbnail($product['image'])) ?>">
+                                    <img src="<?php echo Links::action_link(Links::changeToThumbnail($product['image'])) ?>"
+                                        alt="<?php echo Output::phpOutput($product['name']) ?>">
                                 </div>
                                 <p class=""> $<?php echo $product['price'] ?></p>
                                 <p class=""> <?php echo Output::phpOutput(Output::shortenString($product['description'], 75)) ?>
@@ -33,7 +34,7 @@
                             </div>
                             <div class="product-form">
                                 <form action="<?php echo Links::action_link('home/update/'. $product['id']) ?>" method="post">
-                                    <label for="Quantity"> Quantity </label>
+                                    <label> Quantity </label>
                                     <select name="Quantity">
                                         <?php
                                         foreach($data['quantity'] as $value) {
@@ -43,13 +44,12 @@
                                                 echo "<option value=\"$value\">$value</option>";
                                             }
                                         }
-                                        ?>">
+                                        ?>
                                     </select>
                                     <div class="top-buffer-10">
                                         <input type="submit" class="button info" value="Update">
-                                        <button class="button alert">
-                                            <a href="<?php echo Links::action_link('home/remove/' . $product['id']) ?>"> Remove</a>
-                                        </button>
+                                        <a class="button alert"
+                                           href="<?php echo Links::action_link('home/remove/' . $product['id']) ?>"> Remove</a>
                                     </div>
                                 </form>
 
@@ -62,11 +62,9 @@
                 <fieldset>
                     <legend> Total</legend>
                     <h3> Total: $<?php echo Output::phpPrice($data['total'])  ?> </h3>
-                    <button class="button alert">
-                        <a href="<?php echo Links::action_link('home/delete_cart') ?>" >
-                            Remove all items
-                        </a>
-                    </button>
+                    <a class="button alert" href="<?php echo Links::action_link('home/delete_cart') ?>" >
+                        Remove all items
+                    </a>
                 </fieldset>
             </div>
         <?php } ?>

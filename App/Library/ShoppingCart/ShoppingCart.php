@@ -118,18 +118,29 @@ class ShoppingCart {
 
     }
 
+    /**
+     * Get the time the session was created
+     *
+     * @return null|string
+     */
     public function getTimeFromActivation()
     {
         $time = null;
 
         if($this->sessions->get('cart_activation_time') !== null)
         {
+
             $time = $this->timeDifference($this->sessions->get('cart_activation_time'));
         }
 
         return $time;
     }
 
+    /**
+     * Get the time the session was last updated
+     *
+     * @return string
+     */
     public function getTimeFromLastUpdate()
     {
         $updateTime = $this->sessions->get('cart_last_updated_time');
@@ -140,7 +151,14 @@ class ShoppingCart {
         return $this->timeDifference($this->sessions->get('cart_activation_time'));
     }
 
-    public function timeDifference($start)
+    /**
+     * Gets the number of minutes between the time the Session was
+     * created and now
+     *
+     * @param $start
+     * @return string
+     */
+    private function timeDifference($start)
     {
         $begin = new DateTime(date('h:i:s', $start));
         $end = new DateTime(date('h:i:s', time()));
@@ -150,6 +168,9 @@ class ShoppingCart {
         return $duration->format('%i');
     }
 
+    /**
+     * Checks if the variables numbers
+     */
     private function runTests()
     {
         $this->checkIfNull();
@@ -161,6 +182,9 @@ class ShoppingCart {
 
     }
 
+    /**
+     * Checks if a value is null;
+     */
     private function checkIfNull()
     {
         $array = [$this->item, $this->quantity];
@@ -176,6 +200,9 @@ class ShoppingCart {
         }
     }
 
+    /**
+     * checks if a value is a number
+     */
     private function checkIfNumbers()
     {
         $array = [$this->item, $this->quantity];
@@ -191,6 +218,9 @@ class ShoppingCart {
         }
     }
 
+    /**
+     * converts the value to an integer
+     */
     private function convertToInt()
     {
         if(!is_int($this->item))
@@ -206,6 +236,9 @@ class ShoppingCart {
         $this->isInt = true;
     }
 
+    /**
+     * Add an item to the shopping cart
+     */
     private function addToSession()
     {
         if($this->checkIfEmpty() === false)
@@ -227,6 +260,11 @@ class ShoppingCart {
         }
     }
 
+    /**
+     * Checks if their are items in the cart
+     *
+     * @return bool
+     */
     private function checkIfEmpty()
     {
         $array = $this->sessions->get('cart');
@@ -241,6 +279,11 @@ class ShoppingCart {
         }
     }
 
+    /**
+     * Checks if the item has already been selected
+     *
+     * @return bool
+     */
     private function checkIfInArray()
     {
         $check = false;
@@ -262,6 +305,11 @@ class ShoppingCart {
         return $check;
     }
 
+    /**
+     * Gets the new total
+     *
+     * @return int
+     */
     private function getNewTotal()
     {
         $total = 0;
@@ -295,27 +343,6 @@ class ShoppingCart {
                 unset($_SESSION['cart'][$key]);
             }
 
-        }
-    }
-
-    private function rebuildSession()
-    {
-        $this->removeAllItems();
-
-        $i = 1;
-        foreach($this->tempData as $each_item)
-        {
-            $i++;
-            foreach($each_item as $key => $value)
-            {
-                $id = $each_item[$key]['id'];
-                $quantity = $each_item[$key]['quantity'];
-                if(!empty($id) && !empty($quantity)){
-                    $this->message [] = "The id is $id and the quantity is $quantity";
-                    $this->sessions->push('cart', ['item' => $i, ['id' => $id, 'quantity' => $quantity]], true);
-                }
-
-            }
         }
     }
 
